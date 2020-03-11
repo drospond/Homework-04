@@ -11,9 +11,13 @@ var highscorePage = document.getElementById("highscore-page");
 
 var questionEl = document.getElementById("question");
 var answersEl = document.getElementById("answers");
+var correctnessEl = document.getElementById("correctness");
+var timerEL = document.getElementById("timer");
 
 var score;
 var questionArray = [];
+
+//Questions sourced from https://www.w3schools.com/quiztest/quiztest.asp?qtest=JS
 var question1 = {
   question: "Inside which HTML element do we put the JavaScript?",
   answer1: "<javascript>",
@@ -54,12 +58,22 @@ function startQuiz() {
   homePage.classList.add("d-none");
   questionPage.classList.remove("d-none");
 
+  startClock();
   renderQuestion();
 }
 
-function back(event) {
-  highscorePage.classList.add("d-none");
-  homePage.classList.remove("d-none");
+function startClock(){
+  //set inertval and display on DOM (id = "timer")
+  score = 75;
+  timerEL.textContent = score;
+  var timerInterval = setInterval(function() {
+    score--;
+    timerEL.textContent = score;
+
+    if(score <= 0) {
+      clearInterval(timerInterval);
+    }
+  }, 1000);
 }
 
 function renderQuestion() {
@@ -90,8 +104,21 @@ function shuffle(array) {
   array.sort(() => Math.random() - 0.5);
 }
 
-function startClock(){
-    //set inertval and display on DOM (id = "timer")
+function checkAnswer(event){
+  if (event.target.matches("button")) {
+    if(event.target.textContent === question1.rightAnswer){
+      correctnessEl.textContent = "CORRECT";
+    }else{
+      score -= 15;
+      timerEL.textContent = score;
+      correctnessEl.textContent = "WRONG";
+    }
+  }
+}
+
+function back(event) {
+  highscorePage.classList.add("d-none");
+  homePage.classList.remove("d-none");
 }
 
 function testFunciton(event) {
@@ -101,7 +128,7 @@ function testFunciton(event) {
 highscoreButton.addEventListener("click", viewHighscores);
 startButton.addEventListener("click", startQuiz);
 backButton.addEventListener("click", back);
-
+answersEl.addEventListener("click", checkAnswer);
 
 //TODO: 
 //Add timer
