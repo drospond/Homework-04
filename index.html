@@ -16,8 +16,10 @@
   </head>
   <body>
     <nav class="navbar">
-        <button class="btn btn-outline-success float-left">View Highscores</button>
-        <div class="text-right">Time Left: <span id="timer"></span></div>
+      <button class="btn btn-outline-success float-left">
+        View Highscores
+      </button>
+      <div class="text-right">Time Left: <span id="timer"></span></div>
     </nav>
 
     <div class="container">
@@ -30,20 +32,30 @@
     </div>
 
     <div>
-      <form>
-        <h1>Your Score!</h1>
-        <span id="score"></span>
-        <div class="form-group">
-          <label for="formGroupExampleInput2">Your Initials</label>
-          <input
-            type="text"
-            class="form-control"
-            id="formGroupExampleInput2"
-            placeholder="Another input placeholder"
-          />
-        </div>
-        <button type="submit" class="btn btn-primary">Sign in</button>
+      <h1 id="question">Question</h1>
+      <div id="answers"></div>
+    </div>
+
+    <div>
+      <h1>Your Score:</h1>
+      <span id="score"></span>
+      <form class="form-inline container">
+        <label for="inlineFormInputName2">Initials:</label>
+        <input
+          type="text"
+          class="form-control mb-2 mr-sm-2"
+          id="inlineFormInputName2"
+          maxlength="3"
+        />
+        <button type="submit" class="btn btn-primary">Submit</button>
       </form>
+    </div>
+
+    <div>
+      <h1>High Scores:</h1>
+      <div id="highScores"></div>
+      <button class="btn btn-primary">Go Back</button>
+      <button class="btn btn-primary">Clear Highscores</button>
     </div>
 
     <script src="./script.js" async defer></script>
