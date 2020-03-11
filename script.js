@@ -15,7 +15,6 @@ var correctnessEl = document.getElementById("correctness");
 var timerEL = document.getElementById("timer");
 
 var score;
-var questionArray = [];
 
 //Questions sourced from https://www.w3schools.com/quiztest/quiztest.asp?qtest=JS
 var question1 = {
@@ -41,11 +40,13 @@ var question3 = {
 };
 var question4 = {
   question: "What special character are javascript arrays contained in?",
-  answer1: "''",
-  answer2: "()",
-  answer3: "{}",
-  rightAnswer: "[]"
+  answer1: "' '",
+  answer2: "( )",
+  answer3: "{ }",
+  rightAnswer: "[ ]"
 };
+var questionArray = [question1, question2, question3, question4];
+var questionIndex = 0;
 
 //button functions
 function viewHighscores(event) {
@@ -57,6 +58,7 @@ function viewHighscores(event) {
 function startQuiz() {
   homePage.classList.add("d-none");
   questionPage.classList.remove("d-none");
+  questionIndex = 0;
 
   startClock();
   renderQuestion();
@@ -78,8 +80,8 @@ function startClock(){
 
 function renderQuestion() {
   answersEl.innerHTML = "";
-  questionEl.textContent = question1.question;
-  var answerArray = genererateAnswerArray(question1);
+  questionEl.textContent = questionArray[questionIndex].question;
+  var answerArray = genererateAnswerArray(questionArray[questionIndex]);
   for (var i = 0; i < answerArray.length; i++) {
     var answerButton = document.createElement("button");
     answerButton.textContent = answerArray[i];
@@ -106,13 +108,15 @@ function shuffle(array) {
 
 function checkAnswer(event){
   if (event.target.matches("button")) {
-    if(event.target.textContent === question1.rightAnswer){
+    if(event.target.textContent === questionArray[questionIndex].rightAnswer){
       correctnessEl.textContent = "CORRECT";
     }else{
       score -= 15;
       timerEL.textContent = score;
       correctnessEl.textContent = "WRONG";
     }
+    questionIndex++;
+    renderQuestion();
   }
 }
 
