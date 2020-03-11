@@ -64,15 +64,14 @@ function startQuiz() {
   renderQuestion();
 }
 
-function startClock(){
-  //set inertval and display on DOM (id = "timer")
+function startClock() {
   score = 75;
   timerEL.textContent = score;
   var timerInterval = setInterval(function() {
     score--;
     timerEL.textContent = score;
 
-    if(score <= 0) {
+    if (score <= 0) {
       clearInterval(timerInterval);
     }
   }, 1000);
@@ -106,17 +105,24 @@ function shuffle(array) {
   array.sort(() => Math.random() - 0.5);
 }
 
-function checkAnswer(event){
+function checkAnswer(event) {
   if (event.target.matches("button")) {
-    if(event.target.textContent === questionArray[questionIndex].rightAnswer){
+    if (event.target.textContent === questionArray[questionIndex].rightAnswer) {
       correctnessEl.textContent = "CORRECT";
-    }else{
+      setTimeout(function(){correctnessEl.textContent = ""}, 1200);
+    } else {
       score -= 15;
       timerEL.textContent = score;
       correctnessEl.textContent = "WRONG";
+      setTimeout(function(){correctnessEl.textContent = ""}, 1200);
     }
-    questionIndex++;
-    renderQuestion();
+    if (questionIndex < questionArray.length -1) {
+      questionIndex++;
+      renderQuestion();
+    } else{
+      questionPage.classList.add("d-none");
+      scorePage.classList.remove("d-none");
+    }
   }
 }
 
@@ -134,13 +140,13 @@ startButton.addEventListener("click", startQuiz);
 backButton.addEventListener("click", back);
 answersEl.addEventListener("click", checkAnswer);
 
-//TODO: 
+//TODO:
 //Add timer
 //Check for correct answer then move through to next question
-    //notifies if correct or wrong
-    //moves to next question
+//notifies if correct or wrong
+//moves to next question
 //Add highscore
 //Clear highscore
 //store high scores in local storage as JSON
-    // localStorage.setItem("user", JSON.stringify(user));
-    // var lastUser = JSON.parse(localStorage.getItem("user"));
+// localStorage.setItem("user", JSON.stringify(user));
+// var lastUser = JSON.parse(localStorage.getItem("user"));
