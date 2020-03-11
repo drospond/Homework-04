@@ -15,32 +15,32 @@ var answersEl = document.getElementById("answers");
 var score;
 var questionArray = [];
 var question1 = {
-  question: "Is this a quesiton?",
-  answer1: "filler1",
-  answer2: "filler2",
-  answer3: "filler3",
-  rightAnswer: "Correct"
+  question: "Inside which HTML element do we put the JavaScript?",
+  answer1: "<javascript>",
+  answer2: "<js>",
+  answer3: "<scripting>",
+  rightAnswer: "<script>"
 };
 var question2 = {
-  question: "Is this a quesiton?",
-  answer1: "filler",
-  answer2: "filler",
-  answer3: "filler",
-  rightAnswer: "Correct"
+  question: "How do you write 'Hello World' in an alert box?",
+  answer1: "msgBox('Hello World')",
+  answer2: "alertBox('Hello World')",
+  answer3: "console.log('Hello World')",
+  rightAnswer: "alert('Hello World')"
 };
 var question3 = {
-  question: "Is this a quesiton?",
-  answer1: "filler",
-  answer2: "filler",
-  answer3: "filler",
-  rightAnswer: "Correct"
+  question: "How do you create a function in JavaScript?",
+  answer1: "function.myFunction()",
+  answer2: "function:myFuction()",
+  answer3: "function = myFunction()",
+  rightAnswer: "function myFunction()"
 };
 var question4 = {
-  question: "Is this a quesiton?",
-  answer1: "filler",
-  answer2: "dtuff",
-  answer3: "whatwhat",
-  rightAnswer: "Correct"
+  question: "What special character are javascript arrays contained in?",
+  answer1: "''",
+  answer2: "()",
+  answer3: "{}",
+  rightAnswer: "[]"
 };
 
 //button functions
@@ -63,6 +63,7 @@ function back(event) {
 }
 
 function renderQuestion() {
+  answersEl.innerHTML = "";
   questionEl.textContent = question1.question;
   var answerArray = genererateAnswerArray(question1);
   for (var i = 0; i < answerArray.length; i++) {
