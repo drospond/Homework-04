@@ -2,6 +2,7 @@
 var startButton = document.querySelector("#start-button");
 var highscoreButton = document.getElementById("highscore-button");
 var backButton = document.getElementById("back-button");
+var submitButton = document.getElementById("submit-button");
 
 //page elements
 var homePage = document.getElementById("home-page");
@@ -13,8 +14,13 @@ var questionEl = document.getElementById("question");
 var answersEl = document.getElementById("answers");
 var correctnessEl = document.getElementById("correctness");
 var timerEL = document.getElementById("timer");
+var scoreEl = document.getElementById("score");
+var initialsEl = document.getElementById("initials");
+var highscoresEL = document.getElementById("highscores");
 
+var gameOver = false;
 var score;
+var highscoreArray = [];
 
 //Questions sourced from https://www.w3schools.com/quiztest/quiztest.asp?qtest=JS
 var question1 = {
@@ -48,16 +54,25 @@ var question4 = {
 var questionArray = [question1, question2, question3, question4];
 var questionIndex = 0;
 
+function init(){
+  if(highscoreArray !== null && highscoreArray !== null){
+    highscoreArray = JSON.parse(localStorage.getItem("highscores"));
+  }
+}
+
 //button functions
-function viewHighscores(event) {
+function viewHighscores() {
   homePage.classList.add("d-none");
   questionPage.classList.add("d-none");
+  scorePage.classList.add("d-none");
   highscorePage.classList.remove("d-none");
+  renderHighscores();
 }
 
 function startQuiz() {
   homePage.classList.add("d-none");
   questionPage.classList.remove("d-none");
+  gameOver = false;
   questionIndex = 0;
 
   startClock();
@@ -68,11 +83,11 @@ function startClock() {
   score = 75;
   timerEL.textContent = score;
   var timerInterval = setInterval(function() {
-    score--;
-    timerEL.textContent = score;
-
-    if (score <= 0) {
+    if (gameOver) {
       clearInterval(timerInterval);
+    } else {
+      score--;
+      timerEL.textContent = score;
     }
   }, 1000);
 }
@@ -109,20 +124,49 @@ function checkAnswer(event) {
   if (event.target.matches("button")) {
     if (event.target.textContent === questionArray[questionIndex].rightAnswer) {
       correctnessEl.textContent = "CORRECT";
-      setTimeout(function(){correctnessEl.textContent = ""}, 1200);
+      setTimeout(function() {
+        correctnessEl.textContent = "";
+      }, 1200);
     } else {
       score -= 15;
       timerEL.textContent = score;
       correctnessEl.textContent = "WRONG";
-      setTimeout(function(){correctnessEl.textContent = ""}, 1200);
+      setTimeout(function() {
+        correctnessEl.textContent = "";
+      }, 1200);
     }
-    if (questionIndex < questionArray.length -1) {
+    if (questionIndex < questionArray.length - 1) {
       questionIndex++;
       renderQuestion();
-    } else{
+    } else {
       questionPage.classList.add("d-none");
       scorePage.classList.remove("d-none");
+      gameOver = true;
+      scoreEl.textContent = score;
     }
+  }
+}
+
+function submitScore(event) {
+  event.preventDefault();
+  var newScore = {
+    initials: "",
+    yourScore: ""
+  };
+  newScore.initials = initialsEl.value.toUpperCase();
+  newScore.yourScore = score;
+  highscoreArray.push(newScore);
+  localStorage.setItem("highscores", JSON.stringify(highscoreArray));
+  viewHighscores();
+  renderHighscores();
+}
+
+function renderHighscores() {
+  for(var i = 0; i < highscoreArray.length; i++){
+    var insertedScore = document.createElement("li");
+    insertedScore.classList.add("list-group-item", "list-group-item-primary");
+    insertedScore.textContent = (i+1) + ". " + highscoreArray[i].initials + ": " + highscoreArray[i].yourScore;
+    highscoresEL.appendChild(insertedScore);
   }
 }
 
@@ -139,12 +183,11 @@ highscoreButton.addEventListener("click", viewHighscores);
 startButton.addEventListener("click", startQuiz);
 backButton.addEventListener("click", back);
 answersEl.addEventListener("click", checkAnswer);
+submitButton.addEventListener("click", submitScore);
+
+init();
 
 //TODO:
-//Add timer
-//Check for correct answer then move through to next question
-//notifies if correct or wrong
-//moves to next question
 //Add highscore
 //Clear highscore
 //store high scores in local storage as JSON

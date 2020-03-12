@@ -1,3 +1,7 @@
 body{
     text-align: center;
 }
+
+#highscore-page{
+    max-width: 500px;
+}

@@ -39,22 +39,22 @@
 
     <div class="d-none" id="score-page">
       <h1>Your Score:</h1>
-      <span id="score"></span>
+      <h3 id="score"></h3>
       <form class="form-inline container">
         <label for="inlineFormInputName2">Initials:</label>
         <input
           type="text"
           class="form-control mb-2 mr-sm-2"
-          id="inlineFormInputName2"
+          id="initials"
           maxlength="3"
         />
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" id="submit-button">Submit</button>
       </form>
     </div>
 
-    <div class="d-none" id="highscore-page">
+    <div class="container d-none" id="highscore-page">
       <h1>High Scores:</h1>
-      <div id="highScores"></div>
+      <ul class="list-group font-weight-bolder" id="highscores"></ul>
       <button class="btn btn-primary" id="back-button">Go Back</button>
       <button class="btn btn-primary">Clear Highscores</button>
     </div>
