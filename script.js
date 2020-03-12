@@ -162,17 +162,25 @@ function submitScore(event) {
 }
 
 function renderHighscores() {
+  highscoresEL.innerHTML = "";
+  highscoreArray.sort(compare);
   for(var i = 0; i < highscoreArray.length; i++){
     var insertedScore = document.createElement("li");
     insertedScore.classList.add("list-group-item", "list-group-item-primary");
     insertedScore.textContent = (i+1) + ". " + highscoreArray[i].initials + ": " + highscoreArray[i].yourScore;
     highscoresEL.appendChild(insertedScore);
   }
+  highscoreButton.disabled = true;
+} 
+
+function compare(a, b) {
+  return b.yourScore - a.yourScore;
 }
 
 function back(event) {
   highscorePage.classList.add("d-none");
   homePage.classList.remove("d-none");
+  highscoreButton.disabled = false;
 }
 
 function testFunciton(event) {
