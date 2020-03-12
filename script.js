@@ -129,7 +129,7 @@ function shuffle(array) {
   array.sort(() => Math.random() - 0.5);
 }
 
-//function a bit log. need to break into smaller functions
+//function a bit long. need to break into smaller functions
 function checkAnswer(event) {
   if (event.target.matches("button")) {
     if (event.target.textContent === questionArray[questionIndex].rightAnswer) {
