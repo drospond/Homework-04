@@ -3,6 +3,7 @@ var startButton = document.querySelector("#start-button");
 var highscoreButton = document.getElementById("highscore-button");
 var backButton = document.getElementById("back-button");
 var submitButton = document.getElementById("submit-button");
+var clearButton = document.getElementById("clear-button");
 
 //page elements
 var homePage = document.getElementById("home-page");
@@ -183,6 +184,12 @@ function back(event) {
   highscoreButton.disabled = false;
 }
 
+function clearScores(){
+  highscoreArray = [];
+  localStorage.setItem("highscores", JSON.stringify(highscoreArray));
+  highscoresEL.innerHTML = "";
+}
+
 function testFunciton(event) {
   console.log("test");
 }
@@ -192,6 +199,7 @@ startButton.addEventListener("click", startQuiz);
 backButton.addEventListener("click", back);
 answersEl.addEventListener("click", checkAnswer);
 submitButton.addEventListener("click", submitScore);
+clearButton.addEventListener("click", clearScores);
 
 init();
 
