@@ -55,14 +55,15 @@ var question4 = {
 var questionArray = [question1, question2, question3, question4];
 var questionIndex = 0;
 
-function init(){
-  if(highscoreArray !== null && highscoreArray !== null){
+function init() {
+  if (highscoreArray !== null && highscoreArray !== null) {
     highscoreArray = JSON.parse(localStorage.getItem("highscores"));
   }
 }
 
 //button functions
 function viewHighscores() {
+  gameOver = true;
   homePage.classList.add("d-none");
   questionPage.classList.add("d-none");
   scorePage.classList.add("d-none");
@@ -86,6 +87,13 @@ function startClock() {
   var timerInterval = setInterval(function() {
     if (gameOver) {
       clearInterval(timerInterval);
+    }else if(score <= 0){
+      gameOver = true;
+      clearInterval(timerInterval);
+      correctnessEl.textContent = "TIME UP!";
+      scoreEl.textContent = score;
+      setTimeout(function(){questionPage.classList.add("d-none");
+      scorePage.classList.remove("d-none");},1002)
     } else {
       score--;
       timerEL.textContent = score;
@@ -121,6 +129,7 @@ function shuffle(array) {
   array.sort(() => Math.random() - 0.5);
 }
 
+//function a bit log. need to break into smaller functions
 function checkAnswer(event) {
   if (event.target.matches("button")) {
     if (event.target.textContent === questionArray[questionIndex].rightAnswer) {
@@ -129,20 +138,30 @@ function checkAnswer(event) {
         correctnessEl.textContent = "";
       }, 1200);
     } else {
+      if(score >= 15){
       score -= 15;
+      }else{
+        score = 0;
+        setTimeout(function() {
+          questionPage.classList.add("d-none");
+          scorePage.classList.remove("d-none");
+        }, 1002);
+      }
       timerEL.textContent = score;
       correctnessEl.textContent = "WRONG";
       setTimeout(function() {
         correctnessEl.textContent = "";
-      }, 1200);
+      }, 1000);
     }
     if (questionIndex < questionArray.length - 1) {
       questionIndex++;
       renderQuestion();
     } else {
-      questionPage.classList.add("d-none");
-      scorePage.classList.remove("d-none");
       gameOver = true;
+      setTimeout(function() {
+        questionPage.classList.add("d-none");
+        scorePage.classList.remove("d-none");
+      }, 1002);
       scoreEl.textContent = score;
     }
   }
@@ -165,14 +184,20 @@ function submitScore(event) {
 function renderHighscores() {
   highscoresEL.innerHTML = "";
   highscoreArray.sort(compare);
-  for(var i = 0; i < highscoreArray.length; i++){
+  for (var i = 0; i < highscoreArray.length; i++) {
     var insertedScore = document.createElement("li");
     insertedScore.classList.add("list-group-item", "list-group-item-primary");
-    insertedScore.textContent = (i+1) + ". " + highscoreArray[i].initials + ": " + highscoreArray[i].yourScore;
+    insertedScore.textContent =
+      i +
+      1 +
+      ". " +
+      highscoreArray[i].initials +
+      ": " +
+      highscoreArray[i].yourScore;
     highscoresEL.appendChild(insertedScore);
   }
   highscoreButton.disabled = true;
-} 
+}
 
 function compare(a, b) {
   return b.yourScore - a.yourScore;
@@ -184,7 +209,7 @@ function back(event) {
   highscoreButton.disabled = false;
 }
 
-function clearScores(){
+function clearScores() {
   highscoreArray = [];
   localStorage.setItem("highscores", JSON.stringify(highscoreArray));
   highscoresEL.innerHTML = "";
@@ -202,10 +227,3 @@ submitButton.addEventListener("click", submitScore);
 clearButton.addEventListener("click", clearScores);
 
 init();
-
-//TODO:
-//Add highscore
-//Clear highscore
-//store high scores in local storage as JSON
-// localStorage.setItem("user", JSON.stringify(user));
-// var lastUser = JSON.parse(localStorage.getItem("user"));
