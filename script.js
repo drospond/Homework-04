@@ -56,8 +56,12 @@ var questionArray = [question1, question2, question3, question4];
 var questionIndex = 0;
 
 function init() {
-  if (highscoreArray !== null && highscoreArray !== null) {
+  if (localStorage.getItem("highscores") !== null) {
     highscoreArray = JSON.parse(localStorage.getItem("highscores"));
+    console.log("block 1");
+  }else{
+    localStorage.setItem("highscores", JSON.stringify(highscoreArray));
+    console.log("block 2");
   }
 }
 
