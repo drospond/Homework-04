@@ -11,3 +11,6 @@ Javascript code quiz is quiz game that tests your coding knoweledge. The more qu
 
 ## Resources
 Bootstrap was largely used for the styling. A shuffling function was sourced from  https://javascript.info/task/shuffle.
+
+## Link
+Dployed application: https://drospond.github.io/JavaScript-Code-Quiz/
